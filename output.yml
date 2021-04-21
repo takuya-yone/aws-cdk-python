@@ -1,0 +1,529 @@
+Resources:
+  myvpc445F9E24:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 192.168.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/Resource
+  myvpcmypublicsubnetSubnet1SubnetF350DCAB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 192.168.0.0/24
+      VpcId:
+        Ref: myvpc445F9E24
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: my-public-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet1
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet1/Subnet
+  myvpcmypublicsubnetSubnet1RouteTableF483969B:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: myvpc445F9E24
+      Tags:
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet1
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet1/RouteTable
+  myvpcmypublicsubnetSubnet1RouteTableAssociation6585BF60:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: myvpcmypublicsubnetSubnet1RouteTableF483969B
+      SubnetId:
+        Ref: myvpcmypublicsubnetSubnet1SubnetF350DCAB
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet1/RouteTableAssociation
+  myvpcmypublicsubnetSubnet1DefaultRoute3EDDB535:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: myvpcmypublicsubnetSubnet1RouteTableF483969B
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: myvpcIGW4A95849E
+    DependsOn:
+      - myvpcVPCGW0343AEB8
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet1/DefaultRoute
+  myvpcmypublicsubnetSubnet2Subnet4FC98CCA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 192.168.1.0/24
+      VpcId:
+        Ref: myvpc445F9E24
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: my-public-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet2
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet2/Subnet
+  myvpcmypublicsubnetSubnet2RouteTable41719F68:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: myvpc445F9E24
+      Tags:
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet2
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet2/RouteTable
+  myvpcmypublicsubnetSubnet2RouteTableAssociation9C9C9464:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: myvpcmypublicsubnetSubnet2RouteTable41719F68
+      SubnetId:
+        Ref: myvpcmypublicsubnetSubnet2Subnet4FC98CCA
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet2/RouteTableAssociation
+  myvpcmypublicsubnetSubnet2DefaultRoute82B77C27:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: myvpcmypublicsubnetSubnet2RouteTable41719F68
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: myvpcIGW4A95849E
+    DependsOn:
+      - myvpcVPCGW0343AEB8
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-public-subnetSubnet2/DefaultRoute
+  myvpcmyprivatesubnetSubnet1Subnet9EF1F90C:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 192.168.2.0/24
+      VpcId:
+        Ref: myvpc445F9E24
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: my-private-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet1
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet1/Subnet
+  myvpcmyprivatesubnetSubnet1RouteTableC2A09C7C:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: myvpc445F9E24
+      Tags:
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet1
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet1/RouteTable
+  myvpcmyprivatesubnetSubnet1RouteTableAssociation3DFC6639:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: myvpcmyprivatesubnetSubnet1RouteTableC2A09C7C
+      SubnetId:
+        Ref: myvpcmyprivatesubnetSubnet1Subnet9EF1F90C
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet1/RouteTableAssociation
+  myvpcmyprivatesubnetSubnet2Subnet1AC467BF:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 192.168.3.0/24
+      VpcId:
+        Ref: myvpc445F9E24
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: my-private-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet2
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet2/Subnet
+  myvpcmyprivatesubnetSubnet2RouteTable8DC049CD:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: myvpc445F9E24
+      Tags:
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet2
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet2/RouteTable
+  myvpcmyprivatesubnetSubnet2RouteTableAssociation45F4EEB9:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: myvpcmyprivatesubnetSubnet2RouteTable8DC049CD
+      SubnetId:
+        Ref: myvpcmyprivatesubnetSubnet2Subnet1AC467BF
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/my-private-subnetSubnet2/RouteTableAssociation
+  myvpcIGW4A95849E:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: AwsCdkPythonStack/my-vpc
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/IGW
+  myvpcVPCGW0343AEB8:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: myvpc445F9E24
+      InternetGatewayId:
+        Ref: myvpcIGW4A95849E
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-vpc/VPCGW
+  myec2sg107DEA6F:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: AwsCdkPythonStack/my-ec2-sg
+      GroupName: my-ec2-sg
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: allow ssh access
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      VpcId:
+        Ref: myvpc445F9E24
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-sg/Resource
+  myec2instanceInstanceRole0572A187:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance/InstanceRole/Resource
+  myec2instanceInstanceProfile49635338:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: myec2instanceInstanceRole0572A187
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance/InstanceProfile
+  myec2instance87A1F156:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: myec2instanceInstanceProfile49635338
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: aiueo
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - myec2sg107DEA6F
+            - GroupId
+      SubnetId:
+        Ref: myvpcmypublicsubnetSubnet1SubnetF350DCAB
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - myec2instanceInstanceRole0572A187
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance/Resource
+  myec2instanceseq1InstanceRole1BCF4127:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance-seq1
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq1/InstanceRole/Resource
+  myec2instanceseq1InstanceProfile775CBAEB:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: myec2instanceseq1InstanceRole1BCF4127
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq1/InstanceProfile
+  myec2instanceseq1D0636540:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: myec2instanceseq1InstanceProfile775CBAEB
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: aiueo
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - myec2sg107DEA6F
+            - GroupId
+      SubnetId:
+        Ref: myvpcmyprivatesubnetSubnet1Subnet9EF1F90C
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance-seq1
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - myec2instanceseq1InstanceRole1BCF4127
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq1/Resource
+  myec2instanceseq2InstanceRoleFE430D9E:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance-seq2
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq2/InstanceRole/Resource
+  myec2instanceseq2InstanceProfile1D7176E1:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: myec2instanceseq2InstanceRoleFE430D9E
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq2/InstanceProfile
+  myec2instanceseq2697C23CD:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: myec2instanceseq2InstanceProfile1D7176E1
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: aiueo
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - myec2sg107DEA6F
+            - GroupId
+      SubnetId:
+        Ref: myvpcmyprivatesubnetSubnet1Subnet9EF1F90C
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance-seq2
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - myec2instanceseq2InstanceRoleFE430D9E
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq2/Resource
+  myec2instanceseq3InstanceRole01B0D46A:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance-seq3
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq3/InstanceRole/Resource
+  myec2instanceseq3InstanceProfile93812D0E:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: myec2instanceseq3InstanceRole01B0D46A
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq3/InstanceProfile
+  myec2instanceseq3FBCF44BB:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: myec2instanceseq3InstanceProfile93812D0E
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: aiueo
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - myec2sg107DEA6F
+            - GroupId
+      SubnetId:
+        Ref: myvpcmyprivatesubnetSubnet1Subnet9EF1F90C
+      Tags:
+        - Key: Name
+          Value: my-ec2-instance-seq3
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - myec2instanceseq3InstanceRole01B0D46A
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/my-ec2-instance-seq3/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAAE1VPwW7CMAz9Fu4hlE2TdhzqAXGL2om7a4zwaBOUOENV1H9fSum6nfz8nv3st9XbotDF6gPuYY2n6yah86RTLYBXVVFw0SOp8mwNeOhIyKvS2SA+ooz035EsnFjY2UGNdonwRafjDUftaEplYtMy1rGx9NhdUOWi0Cc0LS38wu1CcMgwOv8OK+P5G4QWj4PNz2W8z+wd+ufRZ7eTHOjSkRVVE0bP0u+9i7fHuX/EIYcDOwWa8aAYOp0qN/0311k23p25pWEYlOnl4uzmVb/rt9VXYF77aIU70tVUfwCWOok3cQEAAA==
+    Metadata:
+      aws:cdk:path: AwsCdkPythonStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Parameters:
+  SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+
