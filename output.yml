@@ -208,11 +208,11 @@ Resources:
         Ref: PREFIXvpcIGW9EA092C3
     Metadata:
       aws:cdk:path: STACKNAME/PREFIX-vpc/VPCGW
-  PREFIXec2sgFFB281C7:
+  PREFIXpublicsg78E09526:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: STACKNAME/PREFIX-ec2-sg
-      GroupName: PREFIX-ec2-sg
+      GroupDescription: STACKNAME/PREFIX-public-sg
+      GroupName: PREFIX-public-sg
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
           Description: Allow all outbound traffic by default
@@ -229,7 +229,29 @@ Resources:
       VpcId:
         Ref: PREFIXvpcACF771C8
     Metadata:
-      aws:cdk:path: STACKNAME/PREFIX-ec2-sg/Resource
+      aws:cdk:path: STACKNAME/PREFIX-public-sg/Resource
+  PREFIXprivatesgE1018296:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: STACKNAME/PREFIX-private-sg
+      GroupName: PREFIX-private-sg
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: allow ssh access
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      Tags:
+        - Key: Name
+          Value: TAGVALUE
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-private-sg/Resource
   PREFIXec2publicinstanceInstanceRole20DB79F0:
     Type: AWS::IAM::Role
     Properties:
@@ -271,7 +293,7 @@ Resources:
       KeyName: KEYNAME
       SecurityGroupIds:
         - Fn::GetAtt:
-            - PREFIXec2sgFFB281C7
+            - PREFIXpublicsg78E09526
             - GroupId
       SubnetId:
         Ref: PREFIXvpcPREFIXpublicsubnetSubnet1SubnetD6C5593E
@@ -325,7 +347,7 @@ Resources:
       KeyName: KEYNAME
       SecurityGroupIds:
         - Fn::GetAtt:
-            - PREFIXec2sgFFB281C7
+            - PREFIXprivatesgE1018296
             - GroupId
       SubnetId:
         Ref: PREFIXvpcPREFIXprivatesubnetSubnet1Subnet1DCE394B

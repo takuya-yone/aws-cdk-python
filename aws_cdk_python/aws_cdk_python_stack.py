@@ -10,6 +10,9 @@ class BaseFormationStack(cdk.Stack):
 
     def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
+
+
+        # vpc
         base_vpc = aws_ec2.Vpc(
             self,
             id='{}-vpc'.format(prefix),
@@ -29,20 +32,39 @@ class BaseFormationStack(cdk.Stack):
             ],
         )
 
-        my_ec2_security_group = aws_ec2.SecurityGroup(
+        # public sg
+        public_security_group = aws_ec2.SecurityGroup(
             self,
-            id='{}-ec2-sg'.format(prefix),
+            id='{}-public-sg'.format(prefix),
             vpc=base_vpc,
             allow_all_outbound=True,
-            security_group_name='{}-ec2-sg'.format(prefix),
+            security_group_name='{}-public-sg'.format(prefix),
         )
 
-        my_ec2_security_group.add_ingress_rule(
+        # public sg
+        public_security_group.add_ingress_rule(
             peer=aws_ec2.Peer.ipv4('0.0.0.0/0'),
             connection=aws_ec2.Port.tcp(22),
             description='allow ssh access'
         )
 
+        # private sg
+        private_security_group = aws_ec2.SecurityGroup(
+            self,
+            id='{}-private-sg'.format(prefix),
+            vpc=base_vpc,
+            allow_all_outbound=True,
+            security_group_name='{}-private-sg'.format(prefix),
+        )
+
+        # private sg
+        private_security_group.add_ingress_rule(
+            peer=aws_ec2.Peer.ipv4('0.0.0.0/0'),
+            connection=aws_ec2.Port.tcp(22),
+            description='allow ssh access'
+        )
+
+        # ec2 metadata
         amzn_linux = aws_ec2.MachineImage.latest_amazon_linux(
             generation=aws_ec2.AmazonLinuxGeneration.AMAZON_LINUX,
             edition=aws_ec2.AmazonLinuxEdition.STANDARD,
@@ -51,6 +73,7 @@ class BaseFormationStack(cdk.Stack):
             cpu_type=aws_ec2.AmazonLinuxCpuType.X86_64
         )
 
+        # ec2
         my_ec2_instance = aws_ec2.Instance(
             self,
             id='{}-ec2-public-instance'.format(prefix),
@@ -64,10 +87,11 @@ class BaseFormationStack(cdk.Stack):
                 subnet_type=aws_ec2.SubnetType.PUBLIC
             ),
             instance_name='{}-ec2-public-instance'.format(prefix),
-            security_group=my_ec2_security_group,
+            security_group=public_security_group,
             key_name = ec2_keyname
         )
 
+        # ec2
         my_ec2_instance = aws_ec2.Instance(
             self,
             id='{}-ec2-private-instance'.format(prefix),
@@ -81,7 +105,7 @@ class BaseFormationStack(cdk.Stack):
                 subnet_type=aws_ec2.SubnetType.ISOLATED
             ),
             instance_name='{}-ec2-private-instance'.format(prefix),
-            security_group=my_ec2_security_group,
+            security_group=private_security_group,
             key_name = ec2_keyname
         )
 
@@ -99,6 +123,6 @@ class BaseFormationStack(cdk.Stack):
         #             subnet_type=aws_ec2.SubnetType.ISOLATED
         #         ),
         #         instance_name='{}-ec2-private-instance-seq{}'.format(prefix,str(i)),
-        #         security_group=my_ec2_security_group,
+        #         security_group=public_security_group,
         #         key_name = ec2_keyname
         #     )
