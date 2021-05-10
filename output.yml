@@ -1,0 +1,424 @@
+Resources:
+  PREFIXvpcACF771C8:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/Resource
+  PREFIXvpcPREFIXpublicsubnetSubnet1SubnetD6C5593E:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/24
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PREFIX-public-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet1
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet1/Subnet
+  PREFIXvpcPREFIXpublicsubnetSubnet1RouteTable7E8EA793:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      Tags:
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet1
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet1/RouteTable
+  PREFIXvpcPREFIXpublicsubnetSubnet1RouteTableAssociation9D1F77AC:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: PREFIXvpcPREFIXpublicsubnetSubnet1RouteTable7E8EA793
+      SubnetId:
+        Ref: PREFIXvpcPREFIXpublicsubnetSubnet1SubnetD6C5593E
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet1/RouteTableAssociation
+  PREFIXvpcPREFIXpublicsubnetSubnet1DefaultRouteE275AD74:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: PREFIXvpcPREFIXpublicsubnetSubnet1RouteTable7E8EA793
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: PREFIXvpcIGW9EA092C3
+    DependsOn:
+      - PREFIXvpcVPCGW0E795C1D
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet1/DefaultRoute
+  PREFIXvpcPREFIXpublicsubnetSubnet2Subnet3E07DA71:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.1.0/24
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PREFIX-public-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet2
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet2/Subnet
+  PREFIXvpcPREFIXpublicsubnetSubnet2RouteTableE9E4332E:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      Tags:
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet2
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet2/RouteTable
+  PREFIXvpcPREFIXpublicsubnetSubnet2RouteTableAssociation233E92EB:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: PREFIXvpcPREFIXpublicsubnetSubnet2RouteTableE9E4332E
+      SubnetId:
+        Ref: PREFIXvpcPREFIXpublicsubnetSubnet2Subnet3E07DA71
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet2/RouteTableAssociation
+  PREFIXvpcPREFIXpublicsubnetSubnet2DefaultRoute36D821AC:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: PREFIXvpcPREFIXpublicsubnetSubnet2RouteTableE9E4332E
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: PREFIXvpcIGW9EA092C3
+    DependsOn:
+      - PREFIXvpcVPCGW0E795C1D
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-public-subnetSubnet2/DefaultRoute
+  PREFIXvpcPREFIXprivatesubnetSubnet1Subnet1DCE394B:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.2.0/24
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PREFIX-private-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet1
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet1/Subnet
+  PREFIXvpcPREFIXprivatesubnetSubnet1RouteTable307159F3:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      Tags:
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet1
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet1/RouteTable
+  PREFIXvpcPREFIXprivatesubnetSubnet1RouteTableAssociationDF5AA07A:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: PREFIXvpcPREFIXprivatesubnetSubnet1RouteTable307159F3
+      SubnetId:
+        Ref: PREFIXvpcPREFIXprivatesubnetSubnet1Subnet1DCE394B
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet1/RouteTableAssociation
+  PREFIXvpcPREFIXprivatesubnetSubnet2Subnet752C9105:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.3.0/24
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PREFIX-private-subnet
+        - Key: aws-cdk:subnet-type
+          Value: Isolated
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet2
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet2/Subnet
+  PREFIXvpcPREFIXprivatesubnetSubnet2RouteTable44F1F6EB:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      Tags:
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet2
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet2/RouteTable
+  PREFIXvpcPREFIXprivatesubnetSubnet2RouteTableAssociation9F74D1ED:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: PREFIXvpcPREFIXprivatesubnetSubnet2RouteTable44F1F6EB
+      SubnetId:
+        Ref: PREFIXvpcPREFIXprivatesubnetSubnet2Subnet752C9105
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/PREFIX-private-subnetSubnet2/RouteTableAssociation
+  PREFIXvpcIGW9EA092C3:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: STACKNAME/PREFIX-vpc
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/IGW
+  PREFIXvpcVPCGW0E795C1D:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+      InternetGatewayId:
+        Ref: PREFIXvpcIGW9EA092C3
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-vpc/VPCGW
+  PREFIXec2sgFFB281C7:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: STACKNAME/PREFIX-ec2-sg
+      GroupName: PREFIX-ec2-sg
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: allow ssh access
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      Tags:
+        - Key: Name
+          Value: TAGVALUE
+      VpcId:
+        Ref: PREFIXvpcACF771C8
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-ec2-sg/Resource
+  PREFIXec2publicinstanceInstanceRole20DB79F0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: PREFIX-ec2-public-instance
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-ec2-public-instance/InstanceRole/Resource
+  PREFIXec2publicinstanceInstanceProfile67511AE1:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: PREFIXec2publicinstanceInstanceRole20DB79F0
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-ec2-public-instance/InstanceProfile
+  PREFIXec2publicinstance58009318:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: PREFIXec2publicinstanceInstanceProfile67511AE1
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: KEYNAME
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - PREFIXec2sgFFB281C7
+            - GroupId
+      SubnetId:
+        Ref: PREFIXvpcPREFIXpublicsubnetSubnet1SubnetD6C5593E
+      Tags:
+        - Key: Name
+          Value: PREFIX-ec2-public-instance
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - PREFIXec2publicinstanceInstanceRole20DB79F0
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-ec2-public-instance/Resource
+  PREFIXec2privateinstanceInstanceRoleF28D919C:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                Fn::Join:
+                  - ""
+                  - - ec2.
+                    - Ref: AWS::URLSuffix
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: PREFIX-ec2-private-instance
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-ec2-private-instance/InstanceRole/Resource
+  PREFIXec2privateinstanceInstanceProfile60EBC6A0:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: PREFIXec2privateinstanceInstanceRoleF28D919C
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-ec2-private-instance/InstanceProfile
+  PREFIXec2privateinstanceFBDBC51D:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: PREFIXec2privateinstanceInstanceProfile60EBC6A0
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      KeyName: KEYNAME
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - PREFIXec2sgFFB281C7
+            - GroupId
+      SubnetId:
+        Ref: PREFIXvpcPREFIXprivatesubnetSubnet1Subnet1DCE394B
+      Tags:
+        - Key: Name
+          Value: PREFIX-ec2-private-instance
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - PREFIXec2privateinstanceInstanceRoleF28D919C
+    Metadata:
+      aws:cdk:path: STACKNAME/PREFIX-ec2-private-instance/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAAE1VPwW7CMAz9Fu4hlE2TdhzqAXGL2om7a4zwaBOUOENV1H9fSum6nfz8nv3st9XbotDF6gPuYY2n6yah86RTLYBXVVFw0SOp8mwNeOhIyKvS2SA+ooz035EsnFjY2UGNdonwRafjDUftaEplYtMy1rGx9NhdUOWi0Cc0LS38wu1CcMgwOv8OK+P5G4QWj4PNz2W8z+wd+ufRZ7eTHOjSkRVVE0bP0u+9i7fHuX/EIYcDOwWa8aAYOp0qN/0311k23p25pWEYlOnl4uzmVb/rt9VXYF77aIU70tVUfwCWOok3cQEAAA==
+    Metadata:
+      aws:cdk:path: STACKNAME/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Parameters:
+  SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+
